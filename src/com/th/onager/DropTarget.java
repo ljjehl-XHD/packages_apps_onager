@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.chameleonos.chaoslauncher;
+package com.th.onager;
 
 import android.content.Context;
 import android.graphics.PointF;

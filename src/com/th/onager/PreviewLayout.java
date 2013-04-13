@@ -1,4 +1,4 @@
-package org.chameleonos.chaoslauncher;
+package com.th.onager;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import org.chameleonos.chaoslauncher.preference.PreferencesProvider;
+import com.th.onager.preference.PreferencesProvider;
 
 public class PreviewLayout extends FrameLayout
     implements View.OnClickListener, View.OnLongClickListener,

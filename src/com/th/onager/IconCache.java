@@ -17,7 +17,6 @@
 package com.th.onager;
 
 import android.app.ActivityManager;
-import android.app.ThemeHelper;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +35,7 @@ import java.util.HashMap;
  */
 public class IconCache {
     @SuppressWarnings("unused")
-    private static final String TAG = "Onager.IconCache";
+    private static final String TAG = "Trebuchet.IconCache";
 
     private static final int INITIAL_ICON_CACHE_CAPACITY = 50;
 
@@ -81,24 +80,22 @@ public class IconCache {
     }
 
     public Drawable getFullResIcon(String packageName, int iconId) {
-        android.content.pm.ApplicationInfo info = null;
-        try{
-            info = mPackageManager.getApplicationInfo(packageName, 0);
+        Resources resources;
+        try {
+            resources = mPackageManager.getResourcesForApplication(packageName);
         } catch (PackageManager.NameNotFoundException e) {
-            info = null;
+            resources = null;
         }
-        if (info != null) {
-            return getFullResIcon(info, packageName, iconId);
+        if (resources != null) {
+            if (iconId != 0) {
+                return getFullResIcon(resources, iconId);
+            }
         }
         return getFullResDefaultActivityIcon();
     }
 
     public Drawable getFullResIcon(ResolveInfo info) {
         return getFullResIcon(info.activityInfo);
-    }
-
-    public Drawable getFullResIcon(ResolveInfo info, String className) {
-        return getFullResIcon(info.activityInfo, className);
     }
 
     public Drawable getFullResIcon(ActivityInfo info) {
@@ -113,51 +110,7 @@ public class IconCache {
         if (resources != null) {
             int iconId = info.getIconResource();
             if (iconId != 0) {
-                Drawable dr = ThemeHelper.getDrawable(mPackageManager, info.packageName, iconId, info.applicationInfo, info.targetActivity);
-                if (dr == null)
-                    dr = getFullResIcon(resources, iconId);
-                return dr;
-            }
-        }
-        return getFullResDefaultActivityIcon();
-    }
-
-    public Drawable getFullResIcon(ActivityInfo info, String className) {
-
-        Resources resources;
-        try {
-            resources = mPackageManager.getResourcesForApplication(
-                    info.applicationInfo);
-        } catch (PackageManager.NameNotFoundException e) {
-            resources = null;
-        }
-        if (resources != null) {
-            int iconId = info.getIconResource();
-            if (iconId != 0) {
-                Drawable dr = ThemeHelper.getDrawable(mPackageManager, info.packageName, iconId, info.applicationInfo, className);
-                if (dr == null)
-                    dr = getFullResIcon(resources, iconId);
-                return dr;
-            }
-        }
-        return getFullResDefaultActivityIcon();
-    }
-
-    public Drawable getFullResIcon(android.content.pm.ApplicationInfo info,
-            String packageName, int iconId) {
-
-        Resources resources;
-        try {
-            resources = mPackageManager.getResourcesForApplication(info);
-        } catch (PackageManager.NameNotFoundException e) {
-            resources = null;
-        }
-        if (resources != null) {
-            if (iconId != 0) {
-                Drawable dr = ThemeHelper.getDrawable(mPackageManager, packageName, iconId, info, packageName);
-                if (dr == null)
-                    dr = getFullResIcon(resources, iconId);
-                return dr;
+                return getFullResIcon(resources, iconId);
             }
         }
         return getFullResDefaultActivityIcon();
@@ -258,7 +211,7 @@ public class IconCache {
             }
 
             entry.icon = Utilities.createIconBitmap(
-                    getFullResIcon(info, componentName.getClassName()), mContext);
+                    getFullResIcon(info), mContext);
         }
         return entry;
     }

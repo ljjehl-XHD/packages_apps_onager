@@ -74,10 +74,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.metalev.multitouch.controller.MultiTouchController;
-import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
-import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
-import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
+import com.metalev.multitouch.controller.MultiTouchController;
+import com.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
+import com.metalev.multitouch.controller.MultiTouchController.PointInfo;
+import com.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 
 /**
  * The workspace is a wide area with a wallpaper and a finite number of pages.

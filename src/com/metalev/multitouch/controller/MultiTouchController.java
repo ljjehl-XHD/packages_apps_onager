@@ -1,4 +1,4 @@
-package org.metalev.multitouch.controller;
+package com.metalev.multitouch.controller;
 
 /**
  * MultiTouchController.java

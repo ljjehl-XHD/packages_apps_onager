@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.chameleonos.chaoslauncher;
+package com.th.onager;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -38,8 +38,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
-import org.chameleonos.chaoslauncher.widget.CustomAdapterView;
-import org.chameleonos.chaoslauncher.widget.EcoGallery;
+import com.th.onager.widget.CustomAdapterView;
+import com.th.onager.widget.EcoGallery;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,8 +47,8 @@ import java.util.ArrayList;
 public class WallpaperChooserDialogFragment extends DialogFragment implements
         CustomAdapterView.OnItemSelectedListener, CustomAdapterView.OnItemClickListener {
 
-    private static final String TAG = "ChaOSLauncher.WallpaperChooserDialogFragment";
-    private static final String EMBEDDED_KEY = "org.chameleonos.chaoslauncher."
+    private static final String TAG = "Onager.WallpaperChooserDialogFragment";
+    private static final String EMBEDDED_KEY = "com.th.onager."
             + "WallpaperChooserDialogFragment.EMBEDDED_KEY";
 
     private boolean mEmbedded;
