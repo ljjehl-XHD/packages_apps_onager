@@ -498,6 +498,10 @@ public final class Launcher extends Activity
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.onSearchPackagesChanged(searchVisible, voiceVisible);
         }
+        if(Settings.System.getFloat(getContentResolver(), "navigation_bar_alpha", 0.8f) < 1) {
+        	// remove the nasty backdrops!
+        	mDragLayer.setBackground(null);
+        }
     }
 
     private void checkForLocaleChange() {
