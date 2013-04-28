@@ -689,6 +689,7 @@ public class FolderIcon extends LinearLayout implements FolderListener {
     }
 
     public void setTextVisible(boolean visible) {
+        if (getTextVisible() == visible) return;
         if (visible) {
             mFolderName.setVisibility(VISIBLE);
         } else {

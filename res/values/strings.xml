@@ -403,6 +403,8 @@ s -->
     <string name="preferences_interface_dock_icon_scale_summary">Scale of icons in the dock</string>
     <string name="preferences_interface_dock_divider_title">Show dock divider</string>
     <string name="preferences_interface_dock_divider_summary">Show divider between homescreen and dock</string>
+    <string name="preferences_interface_dock_hide_icon_labels_title">Hide icon labels</string>
+    <string name="preferences_interface_dock_hide_icon_labels_summary">Hide dock icon labels</string>
 
     <!-- Icons -->
     <string name="preferences_interface_icons_title">Icons</string>

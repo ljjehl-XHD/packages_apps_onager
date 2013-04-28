@@ -1358,6 +1358,16 @@ public class LauncherModel extends BroadcastReceiver {
                                             iconPackageIndex, iconResourceIndex, iconIndex,
                                             titleIndex);
                                     info.itemType = LauncherSettings.Favorites.ITEM_TYPE_ALLAPPS;
+                                    if (info.title == null) {
+                                        info.title = mContext.getString(R.string.all_apps_button_label);
+                                    }
+                                    intentDescription = c.getString(intentIndex);
+                                    try {
+                                        intent = Intent.parseUri(intentDescription, 0);
+                                    } catch (Exception ex) {
+                                        intent = new Intent();
+                                        intent.setClassName(mContext.getPackageName(), Launcher.class.getName());
+                                    }
                                 }
 
                                 if (info != null) {
