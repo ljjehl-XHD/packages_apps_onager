@@ -134,7 +134,8 @@ public final class Launcher extends Activity
 
     private static final int MENU_GROUP_WALLPAPER = 1;
     private static final int MENU_WALLPAPER_SETTINGS = Menu.FIRST + 1;
-    private static final int MENU_MANAGE_APPS = MENU_WALLPAPER_SETTINGS + 1;
+    private static final int MENU_LOCK_WORKSPACE = MENU_WALLPAPER_SETTINGS + 1;
+    private static final int MENU_MANAGE_APPS = MENU_LOCK_WORKSPACE + 1;
     private static final int MENU_PREVIEWS = MENU_MANAGE_APPS + 1;
     private static final int MENU_PREFERENCES = MENU_PREVIEWS + 1;
     private static final int MENU_SYSTEM_SETTINGS = MENU_PREFERENCES + 1;
@@ -314,6 +315,7 @@ public final class Launcher extends Activity
     private boolean mHideIconLabels;
     private boolean mHideDockIconLabels;
     private boolean mAutoRotate;
+    private boolean mLockWorkspace;
     private boolean mFullscreenMode;
 
     private boolean mWallpaperVisible;
@@ -421,6 +423,7 @@ public final class Launcher extends Activity
         mHideDockIconLabels = PreferencesProvider.Interface.Dock.getHideIconLabels() ||
                 (!mShowHotseat || (verticalHotseat && !LauncherApplication.isScreenLarge()));
         mAutoRotate = PreferencesProvider.Interface.General.getAutoRotate(getResources().getBoolean(R.bool.allow_rotation));
+        mLockWorkspace = PreferencesProvider.Interface.General.getLockWorkspace(getResources().getBoolean(R.bool.lock_workspace));
         mFullscreenMode = PreferencesProvider.Interface.General.getFullscreenMode();
 
         if (PROFILE_STARTUP) {
@@ -1813,6 +1816,8 @@ public final class Launcher extends Activity
         menu.add(MENU_GROUP_WALLPAPER, MENU_WALLPAPER_SETTINGS, 0, R.string.menu_wallpaper)
             .setIcon(android.R.drawable.ic_menu_gallery)
             .setAlphabeticShortcut('W');
+        menu.add(0, MENU_LOCK_WORKSPACE, 0, !mLockWorkspace ? R.string.menu_lock_workspace : R.string.menu_unlock_workspace)
+            .setAlphabeticShortcut('L');
         menu.add(0, MENU_MANAGE_APPS, 0, R.string.menu_manage_apps)
             .setIcon(android.R.drawable.ic_menu_manage)
             .setIntent(manageApps)
@@ -1849,6 +1854,8 @@ public final class Launcher extends Activity
         }
         boolean allAppsVisible = (mAppsCustomizeTabHost.getVisibility() == View.VISIBLE);
         menu.setGroupVisible(MENU_GROUP_WALLPAPER, !allAppsVisible);
+        
+        menu.findItem(MENU_LOCK_WORKSPACE).setTitle(!mLockWorkspace ? R.string.menu_lock_workspace : R.string.menu_unlock_workspace);
 
 		// only show the previews option if on the workspace
 		boolean previewsVisible =  mState == State.WORKSPACE;
@@ -1860,8 +1867,14 @@ public final class Launcher extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case MENU_WALLPAPER_SETTINGS:
-            startWallpaper();
-            return true;
+                startWallpaper();
+                return true;
+            case MENU_LOCK_WORKSPACE:
+                mLockWorkspace = !mLockWorkspace;
+                SharedPreferences.Editor editor = mSharedPrefs.edit();
+                editor.putBoolean("ui_general_lock_workspace", mLockWorkspace);
+                editor.commit();
+                return true;
         case MENU_PREVIEWS:
             showPreviewLayout(true);
             return true;
@@ -2594,7 +2607,11 @@ public final class Launcher extends Activity
                 startWallpaper();
             } else {
                 if (!(itemUnderLongClick instanceof Folder)) {
-                    // User long pressed on an item
+                    // User long pressed on an item (only if workspace is not locked)
+                    if (mLockWorkspace) {
+                        Toast.makeText(this, getString(R.string.workspace_locked), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
                     mWorkspace.startDrag(longClickCellInfo);
                 }
             }
@@ -2611,6 +2628,10 @@ public final class Launcher extends Activity
     }
     SearchDropTargetBar getSearchBar() {
         return mSearchDropTargetBar;
+    }
+    
+    boolean getLockWorkspace() {
+        return mLockWorkspace;
     }
 
     /**
