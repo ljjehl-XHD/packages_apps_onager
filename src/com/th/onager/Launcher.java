@@ -1871,9 +1871,7 @@ public final class Launcher extends Activity
                 return true;
             case MENU_LOCK_WORKSPACE:
                 mLockWorkspace = !mLockWorkspace;
-                SharedPreferences.Editor editor = mSharedPrefs.edit();
-                editor.putBoolean("ui_general_lock_workspace", mLockWorkspace);
-                editor.commit();
+                PreferencesProvider.Interface.General.setLockWorkspace(this, mLockWorkspace);
                 return true;
         case MENU_PREVIEWS:
             showPreviewLayout(true);
