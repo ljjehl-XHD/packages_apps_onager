@@ -397,9 +397,6 @@ public final class Launcher extends Activity
         mInflater = getLayoutInflater();
         final Resources res = getResources();
 
-        // Load all preferences
-        PreferencesProvider.load(this);
-
         mIconScale = (float) PreferencesProvider.Interface.General.getIconScale(
                 getResources().getInteger(R.integer.app_icon_scale_percentage)) / 100f;
 
